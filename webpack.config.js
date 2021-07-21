@@ -20,6 +20,10 @@ module.exports = {
         test: /\.tsx?$/,
         use: 'ts-loader',
       },
+      {
+        test: /\.svg$/,
+        use: '@svgr/webpack',
+      },
     ],
   },
   externals: {
