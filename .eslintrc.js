@@ -26,6 +26,7 @@ module.exports = {
       },
       extends: ['airbnb-typescript'],
       rules: {
+        'react/prop-types': 0,
         'func-names': 0,
         'import/export': 0,
         '@typescript-eslint/indent': ['error', 2],
