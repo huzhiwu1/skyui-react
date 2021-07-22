@@ -1,6 +1,7 @@
 const Path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
@@ -12,6 +13,9 @@ module.exports = {
     libraryTarget: 'umd',
   },
   resolve: {
+    alias: {
+      src: Path.resolve(__dirname, './src'),
+    },
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   module: {
@@ -23,6 +27,27 @@ module.exports = {
       {
         test: /\.svg$/,
         use: '@svgr/webpack',
+      },
+      {
+        test: /\.less$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: ['autoprefixer'],
+              },
+            },
+          },
+          'less-loader',
+        ],
       },
     ],
   },
@@ -45,5 +70,6 @@ module.exports = {
       extensions: ['.ts', '.tsx'],
     }),
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin(),
   ],
 };

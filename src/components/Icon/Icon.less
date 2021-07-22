@@ -1,0 +1,20 @@
+@import '~src/styles/theme.less';
+
+@icon-prefix-cls: ~'@{sky-prefix}-icon';
+
+
+.@{icon-prefix-cls}{
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+    &--normal{
+        font-size:@font-size-normal + 6px;
+    }
+    &--small{
+        font-size: @font-size-small + 4px;
+    }
+    &--large{
+        font-size:@font-size-large + 8px;
+    }
+}
