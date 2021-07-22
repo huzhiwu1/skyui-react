@@ -8,16 +8,21 @@ import './Icon.less';
 interface IconProps {
   name: SvgTypes;
   size?: SizeType;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const Icon: FC<IconProps> = function (props) {
-  const { name, size = 'normal' } = props;
+  const { name, size = 'normal', className, style } = props;
+
   const SvgIcon = SvgsMap[name];
   const prefixcls = `${defaultPrefixCls}-icon`;
   return (
     <SvgIcon
+      style={style}
       className={clsx(prefixcls, {
         [`${prefixcls}--${size}`]: size,
+        [`${className}`]: className,
       })}
     />
   );

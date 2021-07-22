@@ -26,6 +26,7 @@ module.exports = {
       },
       extends: ['airbnb-typescript'],
       rules: {
+        'object-curly-newline': 0,
         'react/prop-types': 0,
         'func-names': 0,
         'import/export': 0,
