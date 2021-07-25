@@ -6,3 +6,4 @@ export { default as poweroffIcon } from '../demo/poweroffIcon';
 export { default as smallIcon } from '../demo/smallIcon';
 export { default as normalIcon } from '../demo/normalIcon';
 export { default as largeIcon } from '../demo/largeIcon';
+export { default as iconClick } from '../demo/iconClick';
