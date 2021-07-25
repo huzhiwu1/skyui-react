@@ -12,13 +12,18 @@ module.exports = {
 
     // Make whatever fine-grained changes you need
     const fileLoader = config.module.rules.find((item) =>
-      item.test.test('.svg')
+      item.test.test('.svg'),
     );
     fileLoader.exclude = /\.svg$/;
 
     config.module.rules.push({
       test: /\.svg$/,
-      use: '@svgr/webpack',
+      use: {
+        loader: '@svgr/webpack',
+        options: {
+          ref: true,
+        },
+      },
     });
     config.module.rules.push({
       test: /\.less$/,
