@@ -8,7 +8,9 @@ const Basic: FC = function () {
       <button type="button" onClick={() => setVisible((value) => !value)}>
         trigger
       </button>
-      <Dialog visible={visible} />
+      <Dialog visible={visible} title="dialog标题">
+        <div>我是content</div>
+      </Dialog>
     </>
   );
 };
