@@ -26,6 +26,7 @@ module.exports = {
       },
       extends: ['airbnb-typescript'],
       rules: {
+        'jsx-a11y/click-events-have-key-events': 0,
         'no-underscore-dangle': 0,
         'react/jsx-props-no-spreading': 0,
         'object-curly-newline': 0,

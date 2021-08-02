@@ -7,17 +7,34 @@ import { Icon } from '../Icon';
 export interface DialogProps {
   visible: boolean;
   title: string;
+  okText?: React.ReactNode;
+  cancelText?: React.ReactNode;
+  onCancel?: React.MouseEventHandler<HTMLDivElement>;
+  onOk?: React.MouseEventHandler;
 }
 const Dialog: FC<DialogProps> = function (props) {
   const prefixcls = `${defaultPrefixCls}-dialog`;
-  const { visible, title, children } = props;
+  const {
+    visible,
+    title,
+    children,
+    okText = '确认',
+    cancelText = '取消',
+    onCancel,
+    onOk,
+  } = props;
   return visible ? (
     <>
       <div className={`${prefixcls}__mask`} />
       <div className={`${prefixcls}__wrap`}>
         <div className={prefixcls}>
           <div className={`${prefixcls}__content`}>
-            <div className={`${prefixcls}__close`}>
+            <div
+              className={`${prefixcls}__close`}
+              onClick={onCancel}
+              role="button"
+              tabIndex={0}
+            >
               <Icon
                 name="close"
                 className={`${prefixcls}__close-icon`}
@@ -35,8 +52,9 @@ const Dialog: FC<DialogProps> = function (props) {
                   `${prefixcls}__button`,
                   `${prefixcls}__button--ok`,
                 )}
+                onClick={onOk}
               >
-                确认
+                {okText}
               </button>
               <button
                 type="button"
@@ -45,7 +63,7 @@ const Dialog: FC<DialogProps> = function (props) {
                   `${prefixcls}__button--cancel`,
                 )}
               >
-                取消
+                {cancelText}
               </button>
             </footer>
           </div>
