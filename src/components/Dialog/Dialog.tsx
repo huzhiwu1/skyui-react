@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import { defaultPrefixCls } from 'src/shared/getPrefixCls';
 import clsx from 'clsx';
 import './Dialog.less';
@@ -9,8 +9,9 @@ export interface DialogProps {
   title: string;
   okText?: React.ReactNode;
   cancelText?: React.ReactNode;
-  onCancel?: React.MouseEventHandler<HTMLDivElement>;
+  onCancel?: React.MouseEventHandler;
   onOk?: React.MouseEventHandler;
+  maskClosable?: boolean;
 }
 const Dialog: FC<DialogProps> = function (props) {
   const prefixcls = `${defaultPrefixCls}-dialog`;
@@ -22,10 +23,22 @@ const Dialog: FC<DialogProps> = function (props) {
     cancelText = '取消',
     onCancel,
     onOk,
+    maskClosable = true,
   } = props;
+
+  const handleClickMask = useCallback<React.MouseEventHandler>(
+    (e) => {
+      maskClosable && onCancel && onCancel(e);
+    },
+    [maskClosable, onCancel],
+  );
   return visible ? (
     <>
-      <div className={`${prefixcls}__mask`} />
+      <div
+        className={`${prefixcls}__mask`}
+        onClick={handleClickMask}
+        role="dialog"
+      />
       <div className={`${prefixcls}__wrap`}>
         <div className={prefixcls}>
           <div className={`${prefixcls}__content`}>
