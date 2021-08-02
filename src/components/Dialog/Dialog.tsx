@@ -18,12 +18,16 @@ const Dialog: FC<DialogProps> = function (props) {
         <div className={prefixcls}>
           <div className={`${prefixcls}__content`}>
             <div className={`${prefixcls}__close`}>
-              <Icon name="close" />
+              <Icon
+                name="close"
+                className={`${prefixcls}__close-icon`}
+                size="normal"
+              />
             </div>
             <header className={`${prefixcls}__header`}>
               <h3 className={`${prefixcls}__title`}>{title}</h3>
             </header>
-            <main className={`${prefixcls}__content`}>{children}</main>
+            <main className={`${prefixcls}__body`}>{children}</main>
             <footer className={`${prefixcls}__footer`}>
               <button
                 type="button"
@@ -32,7 +36,7 @@ const Dialog: FC<DialogProps> = function (props) {
                   `${prefixcls}__button--ok`,
                 )}
               >
-                ok
+                确认
               </button>
               <button
                 type="button"
@@ -41,7 +45,7 @@ const Dialog: FC<DialogProps> = function (props) {
                   `${prefixcls}__button--cancel`,
                 )}
               >
-                cancel
+                取消
               </button>
             </footer>
           </div>
