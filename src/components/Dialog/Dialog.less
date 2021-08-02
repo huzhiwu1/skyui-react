@@ -2,6 +2,11 @@
 
 @dialog-prefix-cls: ~'@{sky-prefix}-dialog';
 .@{dialog-prefix-cls} {
+  position: relative;
+  width: 520px;
+  margin: auto;
+  top: 100px;
+  pointer-events: none;
   &__wrap {
     position: fixed;
     top: 0;
@@ -21,11 +26,6 @@
     height: 100%;
     background-color: @background-color;
   }
-  position: relative;
-  width: 520px;
-  margin: auto;
-  top: 100px;
-  pointer-events: none;
   &__content {
     position: relative;
     background-color: #fff;

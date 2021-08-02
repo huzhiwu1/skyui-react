@@ -1,4 +1,5 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { defaultPrefixCls } from 'src/shared/getPrefixCls';
 import clsx from 'clsx';
 import './Dialog.less';
@@ -14,6 +15,7 @@ export interface DialogProps {
   maskClosable?: boolean;
 }
 const Dialog: FC<DialogProps> = function (props) {
+  const mountNodeRef = useRef<HTMLDivElement>(document.createElement('div'));
   const prefixcls = `${defaultPrefixCls}-dialog`;
   const {
     visible,
@@ -32,7 +34,8 @@ const Dialog: FC<DialogProps> = function (props) {
     },
     [maskClosable, onCancel],
   );
-  return visible ? (
+
+  const dialogElement = visible ? (
     <>
       <div
         className={`${prefixcls}__mask`}
@@ -75,6 +78,7 @@ const Dialog: FC<DialogProps> = function (props) {
                   `${prefixcls}__button`,
                   `${prefixcls}__button--cancel`,
                 )}
+                onClick={onCancel}
               >
                 {cancelText}
               </button>
@@ -84,6 +88,25 @@ const Dialog: FC<DialogProps> = function (props) {
       </div>
     </>
   ) : null;
+
+  useEffect(() => {
+    if (visible) {
+      if (!document.body.contains(mountNodeRef.current)) {
+        document.body.appendChild(mountNodeRef.current);
+      }
+    }
+  }, [visible]);
+
+  useEffect(
+    () => () => {
+      if (mountNodeRef.current.parentNode) {
+        ReactDOM.unmountComponentAtNode(mountNodeRef.current);
+      }
+    },
+    [],
+  );
+
+  return ReactDOM.createPortal(dialogElement, mountNodeRef.current);
 };
 
 export default Dialog;
