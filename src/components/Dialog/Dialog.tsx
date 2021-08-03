@@ -1,11 +1,17 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  PropsWithChildren,
+  useImperativeHandle,
+} from 'react';
 import ReactDOM from 'react-dom';
 import { defaultPrefixCls } from 'src/shared/getPrefixCls';
 import clsx from 'clsx';
 import './Dialog.less';
 import { Icon } from '../Icon';
 
-export interface DialogProps {
+export type DialogProps = PropsWithChildren<{
   visible: boolean;
   title: string;
   okText?: React.ReactNode;
@@ -13,9 +19,14 @@ export interface DialogProps {
   onCancel?: React.MouseEventHandler;
   onOk?: React.MouseEventHandler;
   maskClosable?: boolean;
-}
-const Dialog: FC<DialogProps> = function (props) {
+}>;
+
+const InternalDialog: React.ForwardRefRenderFunction<
+  HTMLDivElement,
+  DialogProps
+> = function (props, ref) {
   const mountNodeRef = useRef<HTMLDivElement>(document.createElement('div'));
+  const dialogRef = useRef<HTMLDivElement>(null);
   const prefixcls = `${defaultPrefixCls}-dialog`;
   const {
     visible,
@@ -35,8 +46,12 @@ const Dialog: FC<DialogProps> = function (props) {
     [maskClosable, onCancel],
   );
 
+  useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(
+    ref,
+    () => dialogRef.current,
+  );
   const dialogElement = visible ? (
-    <>
+    <div ref={dialogRef} className={`${prefixcls}__root`}>
       <div
         className={`${prefixcls}__mask`}
         onClick={handleClickMask}
@@ -86,7 +101,7 @@ const Dialog: FC<DialogProps> = function (props) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   ) : null;
 
   useEffect(() => {
@@ -109,4 +124,17 @@ const Dialog: FC<DialogProps> = function (props) {
   return ReactDOM.createPortal(dialogElement, mountNodeRef.current);
 };
 
+export interface DialogType
+  extends React.ForwardRefExoticComponent<
+    DialogProps & React.RefAttributes<HTMLDivElement>
+  > {
+  __SKY_DIALOG: boolean;
+}
+
+const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
+  InternalDialog,
+) as DialogType;
+
+Dialog.displayName = 'Dialog';
+Dialog.__SKY_DIALOG = true;
 export default Dialog;
