@@ -3,12 +3,18 @@ import { Modal } from '../index';
 
 const Confirm: FC = function () {
   const handleConfirm = useCallback(() => {
-    const { destroy } = Modal.confirm({
+    const { destroy, update } = Modal.confirm({
       title: 'confirm',
       visible: true,
-      children: '我是children',
+      content: 'children',
     });
-    setTimeout(destroy, 3000);
+    setTimeout(() => {
+      update((e) => ({
+        ...e,
+        content: 'update children',
+      }));
+    }, 2000);
+    setTimeout(destroy, 4000);
   }, []);
   return (
     <button type="button" onClick={handleConfirm}>
